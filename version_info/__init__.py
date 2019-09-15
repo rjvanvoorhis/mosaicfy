@@ -1,0 +1,5 @@
+__title__ = 'photomosaic'
+__description__ = 'convert images and gifs into photomosaics'
+__version__ = '2.0.0'
+__author__ = 'Ryan Van Voorhis'
+__license__ = 'MIT'

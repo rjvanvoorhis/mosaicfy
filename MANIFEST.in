@@ -1,0 +1,8 @@
+include cython_utils/*.pyx
+include cython_utils/*.c
+include README.md
+include LICENSE
+include Makefile
+include character_directory.zip
+include photomosaic/gifsicle_helper.sh
+graft photomosaic/character_directory
