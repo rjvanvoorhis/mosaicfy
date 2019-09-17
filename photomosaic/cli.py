@@ -1,6 +1,15 @@
+import sys
 import subprocess
 import click
 from photomosaic.api import mosaicfy, is_animated
+
+
+def _get_default_open():
+    platform = 'linux' if 'linux' in sys.platform.lower() else sys.platform.lower()
+    return {
+        'linux': 'eog',
+        'darwin': 'open -a safari'
+    }.get(platform, 'open')
 
 
 @click.command()
@@ -9,12 +18,13 @@ from photomosaic.api import mosaicfy, is_animated
 @click.option('--scale', default=1)
 @click.option('--output_file')
 @click.option('--show/--no-show', default=False)
+@click.option('--open_with', default=_get_default_open())
 def cli(filename, **kwargs):
     show = kwargs.pop('show', False)
     result = mosaicfy(filename, **kwargs)
     if show:
         if is_animated(filename):
-            cmd = f'eog {result.gif_path}'
+            cmd = f'{kwargs.get("default_open", _get_default_open())} {result.gif_path}'
             subprocess.run(cmd.split())
         else:
             result.image.show()
