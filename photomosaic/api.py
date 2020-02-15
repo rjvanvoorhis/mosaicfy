@@ -38,7 +38,8 @@ def _image_to_mosaic(filename, tile_size=8, **kwargs):
     maker = mosaic_maker.MosaicMaker(
         image_splitter=splitter,
         tile_processor=tile_proc,
-        context=kwargs.get('context')
+        context=kwargs.get('context'),
+        method=kwargs.get('method')
     ).process().save(output_file=kwargs.get('output_file'))
     return callback(maker)
 
@@ -58,6 +59,7 @@ def _convert_frames(tile_proc, frame_directory, **kwargs):
                 scale=kwargs.get('scale', 1),
                 image_type=kwargs.get('image_type', 'L'),
                 output_file=frame,
+                method=kwargs.get('method'),
                 callback=kwargs.get('callback', lambda x: x)
             )
 
@@ -73,6 +75,7 @@ def _convert_frames_async(tile_proc, frame_directory, **kwargs):
             scale=kwargs.get('scale', 1),
             image_type=kwargs.get('image_type', 'L'),
             output_file=frame,
+            method=kwargs.get('method'),
             context={'frame_number': frame_index, 'total_frames': len(frames)}
             # callback=kwargs.get('callback', lambda x: x)
         ) for frame_index, frame in enumerate(frames)]
